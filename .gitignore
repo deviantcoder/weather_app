@@ -2,3 +2,8 @@
 venv/
 __pycache__/
 *.pyc
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
+.env.me

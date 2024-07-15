@@ -4,6 +4,7 @@ from .models import City
 from .forms import CityForm
 from django.conf import settings
 from cities_light.models import City as CityLight
+from django.contrib import messages
 
 
 def index(request):
@@ -19,8 +20,11 @@ def index(request):
 
             city_light = CityLight.objects.filter(name=city_name.capitalize()).first()
 
-            if (response.status_code == 200) and city_light:
+            in_cities = City.objects.filter(name__icontains=city_name)
+
+            if (response.status_code == 200) and city_light and not in_cities:
                 form.save()
+                messages.success(request, f'{city_name.capitalize()} was added')
                 return redirect('/')
             return redirect('/')
 

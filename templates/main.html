@@ -5,15 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>What's the weather like?</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css" />
+    <script src= 
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'> 
+    </script> 
 </head>
-<body>
-    {% include 'navbar.html' %}    
+<body class="has-navbar-fixed-top">
+    {% include 'navbar.html' %}
+
+    {% if messages %}
+    {% for message in messages %}
+
+        <div class='container has-text-centered' style="margin-top: 10px;">
+            <div class='columns is-mobile is-centered'>
+                <div class='column is-4'> 
+                    <div class="notification is-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                        <button class="delete"></button>
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    {% endfor %}
+    {% endif %}
 
     {% block content %}
     {% endblock content %}
 
     <footer class="footer">
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+              const $notification = $delete.parentNode;
+          
+              $delete.addEventListener('click', () => {
+                $notification.parentNode.removeChild($notification);
+              });
+            });
+          });
+    </script>
 </body>
 </html>
