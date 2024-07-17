@@ -21,8 +21,11 @@ class City(models.Model):
         # ordering = ['created']
 
     def time_delta(self): # returns True if 1h has passed, else: False
-        now = timezone.now()
-        last_updated = self.updated if self.updated else self.created
+        if self.updated != self.created:
+            now = timezone.now()
+            last_updated = self.updated if self.updated else self.created
 
-        time_dif = now - last_updated
-        return 1 if time_dif >= timezone.timedelta(hours=1) else 0
+            time_dif = now - last_updated
+            return True if time_dif >= timezone.timedelta(hours=1) else False
+        else:
+            return True

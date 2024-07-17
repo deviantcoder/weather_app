@@ -7,8 +7,20 @@ from cities_light.models import City as CityLight
 from django.contrib import messages
 
 
+def weather_dict(city):
+    weather = {
+        'city_id': city.id,
+        'city': city.name.capitalize(),
+        'temperature': city.temperature,
+        'description': city.description,
+        'icon': city.icon,
+    }
+        
+    return weather
+
+
 def index(request):
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=' + settings.WEATHER_API
+    url = settings.WEATHER_API_URL + settings.WEATHER_API
 
     form = CityForm()
 
@@ -35,19 +47,26 @@ def index(request):
     weather_data = []
 
     for city in cities:
-        city_weather = requests.get(url.format(city.name)).json()
-
         print(f'\t*** {city.name}: {city.time_delta()} ***')
-        
-        if 'main' in city_weather:
-            weather = {
-                'city_id': city.id,
-                'city': city.name.capitalize(),
-                'temperature': city_weather['main']['temp'],
-                'description': city_weather['weather'][0]['description'],
-                'icon': city_weather['weather'][0]['icon'],
-            }
+        if city.time_delta():
 
+            print('\t***** SENDING API REQUEST *****')
+
+            city_weather = requests.get(url.format(city.name)).json()
+            
+            if 'main' in city_weather:
+                city.temperature = city_weather['main']['temp']
+                city.description = city_weather['weather'][0]['description']
+                city.icon = city_weather['weather'][0]['icon']
+                city.save()
+
+                weather = weather_dict(city)
+                weather_data.append(weather)
+        else:
+
+            print('\t***** GETTING DATA FROM DATABASE *****')
+
+            weather = weather_dict(city)
             weather_data.append(weather)
 
     context = {
@@ -56,6 +75,10 @@ def index(request):
     }
 
     return render(request, 'weather/index.html', context)
+
+
+def add_city(request):
+    pass
 
 
 def remove_city(request, pk):
