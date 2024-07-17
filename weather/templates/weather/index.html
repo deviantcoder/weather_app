@@ -23,6 +23,7 @@
             </div>
         </div>
     </section>
+
     <section class="section">
         <div class="container">
             <div class="columns">
@@ -30,7 +31,7 @@
                 <div class="column is-offset-4 is-4">
                     {% for weather in weather_data %}
                     <div class="box">
-                        <article class="media">
+                        <article class="media is-align-items-center">
                             <div class="media-left">
                                 <figure class="image is-50x50">
                                     <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
@@ -46,7 +47,13 @@
                                     </p>
                                 </div>
                             </div>
+                            <div class="media-right">
+                                <span class="icon is-small is-right">
+                                    <a href="{% url 'remove_city' weather.city_id %}"><i class="fa fa-trash"></i></a>
+                                </span>    
+                            </div>
                         </article>
+                        
                     </div>
                     {% endfor %}
                 </div>

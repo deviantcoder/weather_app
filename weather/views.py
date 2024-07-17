@@ -28,15 +28,16 @@ def index(request):
                 return redirect('/')
             return redirect('/')
 
-    weather_data = []
-
     cities = City.objects.all()
+
+    weather_data = []
 
     for city in cities:
         city_weather = requests.get(url.format(city.name)).json()
         
         if 'main' in city_weather:
             weather = {
+                'city_id': city.id,
                 'city': city.name.capitalize(),
                 'temperature': city_weather['main']['temp'],
                 'description': city_weather['weather'][0]['description'],
@@ -45,9 +46,21 @@ def index(request):
 
             weather_data.append(weather)
 
+    print(weather_data)
+
     context = {
         'weather_data': weather_data,
         'form': form,
     }
 
     return render(request, 'weather/index.html', context)
+
+
+def remove_city(request, pk):
+    city = get_object_or_404(City, id=pk)
+    city_name = city.name.capitalize()
+    city.delete()
+
+    messages.success(request, f'{city_name} was removed')
+
+    return redirect('/')

@@ -1,0 +1,97 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+
+
+            <form method="post" action="" class="box">
+            {% csrf_token %}
+
+            {% if page == 'login' %}
+
+            <h1>LOGIN PAGE</h1>
+
+              <div class="field">
+                <label for="" class="label">Email</label>
+                <div class="control has-icons-left">
+                  <input type="username" placeholder="e.g. janedoe" class="input" name="username" required>
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-envelope"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="" class="label">Password</label>
+                <div class="control has-icons-left">
+                  <input type="password" placeholder="*******" class="input" name="password" required>
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-lock"></i>
+                  </span>
+                </div>
+              </div>
+
+            {% else %}
+
+            <h1>REGISTER PAGE</h1>
+
+              {% for field in form %}
+                <div class="field">
+                  
+                  <label for="" class="label">{{ field.label }}</label>
+                  
+                  <div class="control has-icons-left">
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+
+                    <span class="icon is-small is-left">
+                    {% if field.name == 'email' %}
+                        <i class="fa fa-envelope"></i>
+                    {% elif field.name == 'username' %}
+                        <i class="fa fa-user"></i>
+                    {% else %}
+                        <i class="fa fa-lock"></i>
+                    {% endif %}
+                    </span>
+                      
+                  </div>
+                </div>
+              {% endfor %}
+
+            {% endif %}
+              
+              <div class="field has-text-centered">
+                <button class="button is-success">
+                {% if page == 'login' %}Sing In{% else %}Sing Up{% endif %}
+                </button>
+              </div>
+
+              {% if page == 'login' %}
+              <div class="has-text-centered">
+                Don't have an account? <a href="{% url 'users:register_user' %}">Sing Up</a>
+              </div>
+              {% else %}
+              <div class="has-text-centered">
+                Already have an account? <a href="{% url 'users:login' %}">Sing In</a>
+              </div>
+              {% endif %}
+              
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}

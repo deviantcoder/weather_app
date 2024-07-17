@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+
+{% load static %}
+
+<html data-theme="dark" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="808675385228-2olb0ou6q5m7klbae3k1ku3j1or2lb45.apps.googleusercontent.com">
     <title>What's the weather like?</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
     <script src= 
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'> 
     </script> 
@@ -48,5 +53,6 @@
             });
           });
     </script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>
