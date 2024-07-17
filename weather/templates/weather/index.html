@@ -2,64 +2,67 @@
 
 {% block content %}
 
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-offset-4 is-4">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="field has-addons">
-                            <div class="control is-expanded">
-                                {{ form.name }}
-                            </div>
-                            <div class="control">
-                                <button class="button is-info">
-                                    Add City
-                                </button>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            {{ form.name }}
+                        </div>
+                        <div class="control">
+                            <button class="button is-info">
+                                Add City
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {% for weather in weather_data %}
+            {% if forloop.counter0|divisibleby:3 %}
+                <div class="columns">
+            {% endif %}
+
+            <div class="column is-4">
+                <div class="box">
+                    <article class="media is-align-items-center">
+                        <div class="media-left">
+                            <figure class="image is-50x50">
+                                <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <span class="title">{{ weather.city }}</span>
+                                    <br>
+                                    <span class="subtitle">{{ weather.temperature }}° C</span>
+                                    <br> {{ weather.description }}
+                                </p>
                             </div>
                         </div>
-                    </form>
+                        <div class="media-right">
+                            <span class="icon is-small is-right">
+                                <a href="{% url 'remove_city' weather.city_id %}"><i class="fa fa-trash"></i></a>
+                            </span>    
+                        </div>
+                    </article>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-
-                <div class="column is-offset-4 is-4">
-                    {% for weather in weather_data %}
-                    <div class="box">
-                        <article class="media is-align-items-center">
-                            <div class="media-left">
-                                <figure class="image is-50x50">
-                                    <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
-                                </figure>
-                            </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <span class="title">{{ weather.city }}</span>
-                                        <br>
-                                        <span class="subtitle">{{ weather.temperature }}° C</span>
-                                        <br> {{ weather.description }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <span class="icon is-small is-right">
-                                    <a href="{% url 'remove_city' weather.city_id %}"><i class="fa fa-trash"></i></a>
-                                </span>    
-                            </div>
-                        </article>
-                        
-                    </div>
-                    {% endfor %}
+            {% if forloop.counter|divisibleby:3 or forloop.last %}
                 </div>
-
-            </div>
-        </div>
-    </section>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock content %}

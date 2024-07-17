@@ -25,7 +25,7 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            messages.success(request, 'Logged In')
+            messages.success(request, f'Welcome back, {user.username}!')
             return redirect('/')
         else:
             messages.error(request, 'Username or password is incorrect')

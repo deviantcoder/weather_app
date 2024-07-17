@@ -26,7 +26,9 @@ def index(request):
                 form.save()
                 messages.success(request, f'{city_name.capitalize()} was added')
                 return redirect('/')
-            return redirect('/')
+            else:
+                messages.warning(request, 'Incorrect city name!')
+                return redirect('/')
 
     cities = City.objects.all()
 
@@ -34,6 +36,8 @@ def index(request):
 
     for city in cities:
         city_weather = requests.get(url.format(city.name)).json()
+
+        print(f'\t*** {city.name}: {city.time_delta()} ***')
         
         if 'main' in city_weather:
             weather = {
@@ -45,8 +49,6 @@ def index(request):
             }
 
             weather_data.append(weather)
-
-    print(weather_data)
 
     context = {
         'weather_data': weather_data,
