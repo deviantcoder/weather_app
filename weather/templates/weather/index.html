@@ -26,6 +26,11 @@
 
 <section class="section">
     <div class="container">
+        <div>
+            <span class="icon is-large">
+                <a href=""><i class="fas fa-sync"></i></a>
+            </span>    
+        </div>
         {% for weather in weather_data %}
             {% if forloop.counter0|divisibleby:3 %}
                 <div class="columns">
@@ -52,7 +57,7 @@
                         <div class="media-right">
                             <span class="icon is-small is-right">
                                 <a href="{% url 'remove_city' weather.city_id %}"><i class="fa fa-trash"></i></a>
-                            </span>    
+                            </span>  
                         </div>
                     </article>
                 </div>

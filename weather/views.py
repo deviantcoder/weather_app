@@ -47,11 +47,7 @@ def index(request):
     weather_data = []
 
     for city in cities:
-        print(f'\t*** {city.name}: {city.time_delta()} ***')
         if city.time_delta():
-
-            print('\t***** SENDING API REQUEST *****')
-
             city_weather = requests.get(url.format(city.name)).json()
             
             if 'main' in city_weather:
@@ -63,9 +59,6 @@ def index(request):
                 weather = weather_dict(city)
                 weather_data.append(weather)
         else:
-
-            print('\t***** GETTING DATA FROM DATABASE *****')
-
             weather = weather_dict(city)
             weather_data.append(weather)
 
