@@ -26,7 +26,7 @@ load_dotenv()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# WEATHER API KEY AND URL:
+# WEATHER API KEY AND URLs:
 WEATHER_API = os.getenv('WEATHER_API')
 WEATHER_API_URL = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid='
 
