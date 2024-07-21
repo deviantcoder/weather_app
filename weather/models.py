@@ -18,7 +18,7 @@ class City(models.Model):
     
     class Meta:
         verbose_name_plural = 'Cities'
-        # ordering = ['created']
+        ordering = ['created']
 
     def time_delta(self): # returns True if 1h has passed, else: False
         if self.updated != self.created:
@@ -27,5 +27,4 @@ class City(models.Model):
 
             time_dif = now - last_updated
             return True if time_dif >= timezone.timedelta(hours=1) else False
-        else:
-            return True
+        return True
